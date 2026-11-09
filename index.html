@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12082A">
+<title>Весь сюжет — 250 ₽</title>
+<meta name="description" content="Оплата всего сюжета — 250 ₽ переводом по номеру карты.">
+<meta property="og:title" content="Весь сюжет — 250 ₽">
+<meta property="og:description" content="Переведите 250 ₽ по номеру карты и отправьте скриншот в бот.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%92%9C%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<style>
+@property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
+:root{
+  --sky-top:#12082A;
+  --sky-mid:#1E0E47;
+  --sky-bot:#2C1464;
+  --text:#F6F2FF;
+  --muted:#C4B7EE;
+  --line:#0A0420;
+  --violet:#8B4DFF;
+  --violet-hi:#A47BFF;
+  --violet-deep:#5A22D4;
+  --lav:#DCCFFF;
+  --white:#FFFFFF;
+  --ink:#1A0B3D;
+  --cloud:#28145C;
+  --cloud-line:#3E2490;
+  --display:"Unbounded","Nunito","Trebuchet MS",system-ui,sans-serif;
+  --font:"Nunito","Varela Round","Trebuchet MS",system-ui,sans-serif;
+  color-scheme:dark;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+/* Страница задумана тёмной: в обеих темах та же палитра */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --sky-top:#12082A; --sky-mid:#1E0E47; --sky-bot:#2C1464; --text:#F6F2FF; --muted:#C4B7EE; --line:#0A0420;
+    --violet:#8B4DFF; --violet-hi:#A47BFF; --violet-deep:#5A22D4; --lav:#DCCFFF; --white:#FFFFFF; --ink:#1A0B3D;
+    --cloud:#28145C; --cloud-line:#3E2490; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --sky-top:#12082A; --sky-mid:#1E0E47; --sky-bot:#2C1464; --text:#F6F2FF; --muted:#C4B7EE; --line:#0A0420;
+  --violet:#8B4DFF; --violet-hi:#A47BFF; --violet-deep:#5A22D4; --lav:#DCCFFF; --white:#FFFFFF; --ink:#1A0B3D;
+  --cloud:#28145C; --cloud-line:#3E2490; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--sky-top);overflow-x:clip;scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;overflow-x:hidden;
+  background:linear-gradient(180deg,var(--sky-top) 0%,var(--sky-mid) 45%,var(--sky-bot) 100%),var(--sky-top);
+  color:var(--text);font-family:var(--font);font-weight:700;
+  -webkit-font-smoothing:antialiased;
+}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ===== Живой фон ===== */
+.sky{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.twinkle{position:absolute;width:var(--s,14px);height:var(--s,14px);fill:var(--lav);opacity:.2;animation:twinkle var(--d,3s) ease-in-out var(--dl,0s) infinite}
+@keyframes twinkle{0%,100%{transform:scale(.45) rotate(0deg);opacity:.15}50%{transform:scale(1) rotate(45deg);opacity:.95}}
+.cloud{position:absolute;left:0;fill:var(--cloud);stroke:var(--cloud-line);stroke-width:3;stroke-linejoin:round;animation:drift var(--t,60s) linear var(--dl,0s) infinite}
+@keyframes drift{from{transform:translateX(-180px)}to{transform:translateX(calc(100vw + 40px))}}
+.coin{position:absolute;bottom:-60px;width:34px;opacity:0;animation:rise var(--t,16s) ease-in var(--dl,0s) infinite}
+@keyframes rise{
+  0%{transform:translate(0,0) rotate(0);opacity:0}
+  10%{opacity:.55}
+  50%{transform:translate(18px,-55vh) rotate(160deg)}
+  85%{opacity:.4}
+  100%{transform:translate(-10px,-115vh) rotate(320deg);opacity:0}
+}
+.shoot{
+  position:absolute;top:12%;left:-20%;width:140px;height:3px;border-radius:3px;
+  background:linear-gradient(90deg,transparent,var(--white));
+  transform:rotate(-22deg);opacity:0;animation:shoot 9s ease-in 2.5s infinite;
+}
+@keyframes shoot{
+  0%{transform:translate(0,0) rotate(-22deg);opacity:0}
+  2%{opacity:1}
+  12%{transform:translate(130vw,-50vw) rotate(-22deg);opacity:0}
+  100%{transform:translate(130vw,-50vw) rotate(-22deg);opacity:0}
+}
+
+main{
+  position:relative;z-index:1;
+  max-width:25rem;margin:0 auto;text-align:center;
+  padding:1.5rem max(1.25rem, env(safe-area-inset-left,0px)) 2.75rem max(1.25rem, env(safe-area-inset-right,0px));
+}
+
+/* ===== Шапка ===== */
+.moon{display:block;width:78px;height:78px;margin:0 auto .8rem;animation:bob 5s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(164,123,255,.6))}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-9px) rotate(6deg)}}
+.moon .lid{transform-origin:center;animation:blink 5s ease-in-out infinite}
+@keyframes blink{0%,46%,54%,100%{transform:scaleY(1)}50%{transform:scaleY(.15)}}
+.lead{margin:0 auto;max-width:20rem;font-size:clamp(1.05rem,4.6vw,1.2rem);font-weight:800;line-height:1.45;color:var(--text);text-wrap:balance;animation:fadeUp .7s ease .3s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ===== Карта — главный герой ===== */
+.zone{position:relative;width:min(100%,21rem);margin:3rem auto 0}
+.halo{
+  position:absolute;inset:-18px;border-radius:44px;
+  background:conic-gradient(from var(--a),var(--violet),var(--lav),var(--violet-deep),var(--white),var(--violet));
+  filter:blur(26px);opacity:.55;animation:spin 7s linear infinite;
+}
+@keyframes spin{to{--a:360deg}}
+.bankcard{
+  position:relative;overflow:hidden;aspect-ratio:1.586;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:clamp(.95rem,4.5vw,1.3rem);text-align:left;color:var(--white);
+  background:
+    radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.28) 0%,transparent 45%),
+    radial-gradient(90% 80% at 0% 100%,rgba(26,11,61,.45) 0%,transparent 60%),
+    linear-gradient(135deg,var(--violet-hi) 0%,var(--violet) 45%,var(--violet-deep) 100%);
+  border:3px solid var(--line);border-radius:24px;
+  box-shadow:0 8px 0 var(--line);
+  animation:pop .8s cubic-bezier(.34,1.56,.64,1) .35s both,float 4.5s ease-in-out 1.4s infinite;
+}
+@keyframes pop{0%{transform:scale(.7) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-8px) rotate(1deg)}}
+.bankcard::after{
+  content:"";position:absolute;top:-30%;bottom:-30%;left:-40%;width:26%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-18deg);animation:sheen 3.8s ease-in-out 2s infinite;
+}
+@keyframes sheen{0%{left:-40%}35%,100%{left:130%}}
+.card-top{display:flex;align-items:center;justify-content:space-between}
+.chip{position:relative;width:44px;height:32px;border-radius:9px;background:var(--lav);border:3px solid var(--line)}
+.chip::before{content:"";position:absolute;inset:5px 10px;border:2px solid var(--line);border-radius:4px;opacity:.5}
+.waves{width:26px;height:26px;opacity:.9}
+.cardnum{
+  position:relative;z-index:1;font-family:var(--display);font-weight:800;
+  font-size:clamp(1.12rem,5.6vw,1.6rem);letter-spacing:.01em;font-variant-numeric:tabular-nums;white-space:nowrap;
+  text-shadow:0 2px 0 rgba(10,4,32,.55);
+  -webkit-user-select:all;user-select:all;cursor:text;
+}
+.card-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:.6rem}
+.card-label{display:block;font-size:.72rem;font-weight:800;opacity:.8;margin-bottom:.1rem}
+.card-title{display:block;font-size:clamp(1rem,4.4vw,1.15rem);font-weight:900}
+.price{
+  position:relative;z-index:1;flex:none;
+  font-family:var(--display);font-size:clamp(1.05rem,4.8vw,1.3rem);font-weight:800;white-space:nowrap;color:var(--ink);
+  background:var(--white);border:3px solid var(--line);border-radius:14px;padding:.1rem .6rem;
+  box-shadow:0 3px 0 var(--line);animation:pulse 2.2s ease-in-out 1.6s infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(-3deg)}}
+.buddy{position:absolute;top:-46px;right:-22px;width:68px;height:68px;transform-origin:50% 85%;animation:wiggle 3.4s ease-in-out 1.2s infinite;z-index:2}
+@keyframes wiggle{0%,60%,100%{transform:rotate(12deg)}68%{transform:rotate(-10deg) scale(1.08)}76%{transform:rotate(20deg)}84%{transform:rotate(4deg)}}
+
+.hint{font-size:.95rem;font-weight:700;line-height:1.5;color:var(--muted);margin:1.7rem auto 1.4rem;max-width:21rem;text-wrap:balance}
+
+/* ===== Кнопка копирования ===== */
+.copy-main{
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;min-height:3.9rem;padding:.5rem 1rem;
+  background:var(--white);color:var(--violet-deep);
+  font-family:var(--font);font-weight:900;font-size:clamp(1.08rem,4.8vw,1.25rem);cursor:pointer;
+  border:3px solid var(--line);border-radius:22px;
+  box-shadow:0 6px 0 var(--line),0 0 34px rgba(164,123,255,.5);
+  animation:breathe 2.6s ease-in-out 1.5s infinite;
+  transition:box-shadow .12s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.copy-main::after{
+  content:"";position:absolute;top:-20%;bottom:-20%;left:-35%;width:25%;
+  background:linear-gradient(100deg,transparent,rgba(164,123,255,.35),transparent);
+  transform:skewX(-20deg);animation:sheen 3s ease-in-out 1.8s infinite;
+}
+.copy-main svg{width:22px;height:22px;flex:none}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+.copy-main:active{animation:none;transform:translateY(4px);box-shadow:0 2px 0 var(--line)}
+.copy-main:focus-visible{outline:3px solid var(--lav);outline-offset:4px}
+.copy-main.done{background:var(--lav)}
+.status{font-size:.95rem;font-weight:800;line-height:1.4;color:var(--lav);min-height:1.4em;margin:.8rem 0 0}
+.status.show{animation:popIn .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+
+/* ===== Шаги — главный акцент ===== */
+.steps{
+  position:relative;isolation:isolate;margin:2.9rem 0 0;padding:1.9rem clamp(.8rem,3.5vw,1.15rem) 1.3rem;text-align:left;
+  border-radius:28px;
+  box-shadow:0 0 0 7px var(--line),0 12px 0 7px var(--line),0 0 60px 10px rgba(139,77,255,.45);
+}
+.steps::before{
+  content:"";position:absolute;inset:-4px;border-radius:32px;z-index:-1;
+  background:conic-gradient(from var(--a),var(--white),var(--violet),var(--lav),var(--violet-deep),var(--white));
+  animation:spin 4s linear infinite;
+}
+.steps::after{
+  content:"";position:absolute;inset:0;border-radius:28px;z-index:-1;
+  background:linear-gradient(180deg,#3A1C8C,#28126A);
+}
+.sticker{
+  position:absolute;top:-24px;left:14px;z-index:2;
+  font-family:var(--display);font-weight:800;font-size:.9rem;color:var(--violet-deep);
+  background:var(--white);border:3px solid var(--line);border-radius:12px;padding:.3rem .75rem;
+  box-shadow:0 3px 0 var(--line);animation:tilt 2.4s ease-in-out infinite;
+}
+@keyframes tilt{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(3deg) translateY(-3px)}}
+.steps h2{margin:0 0 .9rem;padding:0 .55rem;font-family:var(--display);font-size:clamp(1.12rem,5.2vw,1.35rem);font-weight:800;line-height:1.25;color:var(--white);text-shadow:0 2px 0 var(--line);text-wrap:balance}
+.steps ol{position:relative;list-style:none;margin:0;padding:0;display:grid;gap:.45rem}
+.steps ol::before{
+  content:"";position:absolute;left:calc(.55rem + 2px + 1.6rem - 2px);top:2.2rem;bottom:2.2rem;width:4px;border-radius:2px;
+  background:repeating-linear-gradient(180deg,var(--lav) 0 7px,transparent 7px 14px);
+  animation:flow .9s linear infinite;opacity:.85;
+}
+@keyframes flow{to{background-position:0 14px}}
+.steps li{position:relative;display:flex;align-items:center;gap:.85rem;padding:.5rem .55rem;border:2px solid transparent;border-radius:20px;font-size:clamp(1rem,4.4vw,1.12rem);font-weight:800;line-height:1.35}
+.steps li:nth-child(3){border:2px dashed var(--lav);background:rgba(220,207,255,.12);animation:rowGlow 2s ease-in-out infinite}
+@keyframes rowGlow{0%,100%{box-shadow:0 0 0 0 rgba(220,207,255,0)}50%{box-shadow:0 0 22px 2px rgba(220,207,255,.45)}}
+.bubble{
+  position:relative;flex:none;display:grid;place-items:center;width:3.2rem;height:3.2rem;
+  border:3px solid var(--line);border-radius:50%;background:var(--lav);
+  box-shadow:0 3px 0 var(--line);animation:hop 3s ease-in-out infinite;
+}
+.steps li:nth-child(2) .bubble{background:var(--violet-hi);animation-delay:.35s}
+.steps li:nth-child(3) .bubble{background:var(--white);animation-delay:.7s}
+@keyframes hop{0%,20%,100%{transform:translateY(0)}8%{transform:translateY(-7px) rotate(-8deg)}14%{transform:translateY(0) rotate(4deg)}}
+.bubble svg{width:24px;height:24px}
+.bubble i{
+  position:absolute;right:-7px;top:-7px;display:grid;place-items:center;width:1.25rem;height:1.25rem;
+  font-style:normal;font-size:.72rem;font-weight:900;color:var(--ink);
+  background:var(--white);border:2px solid var(--line);border-radius:50%;
+}
+.steps strong{font-weight:900;color:var(--lav)}
+.js .steps li{opacity:0;transform:translateX(-24px)}
+.js .steps.in li{animation:slideIn .55s cubic-bezier(.34,1.56,.64,1) both}
+.js .steps.in li:nth-child(2){animation-delay:.15s}
+.js .steps.in li:nth-child(3){animation:slideIn .55s cubic-bezier(.34,1.56,.64,1) .3s both,rowGlow 2s ease-in-out 1s infinite}
+@keyframes slideIn{to{opacity:1;transform:none}}
+
+/* Узкие телефоны */
+@media (max-width:360px){
+  main{padding-left:max(1rem, env(safe-area-inset-left,0px));padding-right:max(1rem, env(safe-area-inset-right,0px))}
+  .buddy{right:-6px;width:58px;height:58px;top:-42px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important}
+  .coin,.shoot{display:none}
+  .js .steps li{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="sky" id="sky" aria-hidden="true">
+  <svg class="cloud" style="top:16%;width:150px;--t:70s;--dl:-20s" viewBox="0 0 120 70"><path d="M24 62c-11 0-19-7-19-17s8-17 18-17c2-12 13-21 26-21c12 0 22 7 25 18c3-2 7-3 11-3c13 0 23 10 23 22s-9 18-21 18z"/></svg>
+  <svg class="cloud" style="top:47%;width:110px;--t:55s;--dl:-42s;opacity:.8" viewBox="0 0 120 70"><path d="M24 62c-11 0-19-7-19-17s8-17 18-17c2-12 13-21 26-21c12 0 22 7 25 18c3-2 7-3 11-3c13 0 23 10 23 22s-9 18-21 18z"/></svg>
+  <svg class="cloud" style="top:78%;width:170px;--t:85s;--dl:-8s" viewBox="0 0 120 70"><path d="M24 62c-11 0-19-7-19-17s8-17 18-17c2-12 13-21 26-21c12 0 22 7 25 18c3-2 7-3 11-3c13 0 23 10 23 22s-9 18-21 18z"/></svg>
+  <div class="shoot"></div>
+  <svg class="coin" style="left:8%;--t:17s;--dl:-3s" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#FFFFFF" stroke="#0A0420" stroke-width="3"/><text x="20" y="27" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="19" fill="#5A22D4">₽</text></svg>
+  <svg class="coin" style="left:78%;--t:21s;--dl:-11s;width:26px" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#FFFFFF" stroke="#0A0420" stroke-width="3"/><text x="20" y="27" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="19" fill="#5A22D4">₽</text></svg>
+  <svg class="coin" style="left:48%;--t:19s;--dl:-16s;width:22px" viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="#FFFFFF" stroke="#0A0420" stroke-width="3"/><text x="20" y="27" text-anchor="middle" font-family="Nunito,sans-serif" font-weight="900" font-size="19" fill="#5A22D4">₽</text></svg>
+</div>
+
+<main>
+  <svg class="moon" viewBox="0 0 80 80" aria-hidden="true">
+    <circle cx="40" cy="40" r="33" fill="#EDE6FF" stroke="#0A0420" stroke-width="3.2"/>
+    <circle cx="57" cy="27" r="5" fill="#D3C4FF"/>
+    <circle cx="24" cy="56" r="4" fill="#D3C4FF"/>
+    <circle cx="58" cy="54" r="3" fill="#D3C4FF"/>
+    <g class="lid"><path d="M25 37q5 5 10 0M45 37q5 5 10 0" fill="none" stroke="#0A0420" stroke-width="3" stroke-linecap="round"/></g>
+    <path d="M33 48q7 6 14 0" fill="none" stroke="#0A0420" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+
+  <h1 class="sr">Оплата: весь сюжет за 250 ₽ переводом по номеру карты</h1>
+  <p class="lead">Одна оплата&nbsp;— и&nbsp;вся история ваша. Переведите 250&nbsp;₽ по&nbsp;номеру карты.</p>
+
+  <div class="zone">
+    <div class="halo" aria-hidden="true"></div>
+    <div class="bankcard">
+      <div class="card-top">
+        <span class="chip" aria-hidden="true"></span>
+        <svg class="waves" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M8 7.5a6.5 6.5 0 0 1 0 9M12 5a10 10 0 0 1 0 14M16 2.5a13.5 13.5 0 0 1 0 19"/></svg>
+      </div>
+      <span class="cardnum" id="cardnum" aria-label="Номер карты 2204 1201 3074 6072">2204 1201 3074 6072</span>
+      <div class="card-bottom">
+        <span><span class="card-label">Оплата</span><span class="card-title">Весь сюжет</span></span>
+        <b class="price">250&nbsp;₽</b>
+      </div>
+    </div>
+    <svg class="buddy" viewBox="0 0 70 70" aria-hidden="true">
+      <path d="M35 5l8.4 17.2l19 2.7l-13.7 13.4l3.2 18.8L35 48.2l-16.9 8.9l3.2-18.8L7.6 24.9l19-2.7z" fill="#FFFFFF" stroke="#0A0420" stroke-width="3.2" stroke-linejoin="round"/>
+      <circle cx="29" cy="31" r="2.8" fill="#0A0420"/>
+      <circle cx="41" cy="31" r="2.8" fill="#0A0420"/>
+      <path d="M29.5 38.5c3 3 8 3 11 0" fill="none" stroke="#0A0420" stroke-width="2.8" stroke-linecap="round"/>
+    </svg>
+  </div>
+
+  <p class="hint">В&nbsp;приложении банка выберите перевод по&nbsp;номеру карты, вставьте номер и&nbsp;укажите 250&nbsp;₽.</p>
+
+  <button class="copy-main" id="copyCard" type="button">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>
+    <span id="copyLabel">Скопировать номер</span>
+  </button>
+  <p class="status" id="cardStatus" aria-live="polite"></p>
+
+  <section class="steps" id="steps">
+    <span class="sticker" aria-hidden="true">Важно!</span>
+    <h2>Как получить весь сюжет</h2>
+    <ol>
+      <li>
+        <span class="bubble"><svg viewBox="0 0 24 24" fill="none" stroke="#0A0420" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="3"/><path d="M2.5 10h19M6.5 15h4"/></svg><i>1</i></span>
+        <span>Переведите <strong>250&nbsp;₽</strong> по&nbsp;номеру карты</span>
+      </li>
+      <li>
+        <span class="bubble"><svg viewBox="0 0 24 24" fill="none" stroke="#0A0420" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M9 8l2 2l4-4M10.5 18h3"/></svg><i>2</i></span>
+        <span>Сделайте <strong>скриншот</strong> успешного перевода</span>
+      </li>
+      <li>
+        <span class="bubble"><svg viewBox="0 0 24 24" fill="none" stroke="#0A0420" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 3L10 14.5M21.5 3L14.5 21l-4.5-6.5L3 10z"/></svg><i>3</i></span>
+        <span>Отправьте скриншот <strong>в&nbsp;бот</strong></span>
+      </li>
+    </ol>
+  </section>
+</main>
+
+<script>
+(function(){
+  var CARD = '2204120130746072';
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){}
+  if (!reduce) document.documentElement.classList.add('js');
+
+  /* Мерцающие звёздочки */
+  (function(){
+    var sky = document.getElementById('sky');
+    var NS = 'http://www.w3.org/2000/svg';
+    for (var i=0;i<18;i++){
+      var s = document.createElementNS(NS,'svg');
+      s.setAttribute('viewBox','0 0 30 30');
+      s.setAttribute('class','twinkle');
+      var p = document.createElementNS(NS,'path');
+      p.setAttribute('d','M15 2c1.5 7 5 11 13 13c-8 2-11.5 6-13 13c-1.5-7-5-11-13-13c8-2 11.5-6 13-13z');
+      s.appendChild(p);
+      s.style.left = (Math.random()*96) + '%';
+      s.style.top = (Math.random()*94) + '%';
+      s.style.setProperty('--s', (8 + Math.random()*14).toFixed(0) + 'px');
+      s.style.setProperty('--d', (2 + Math.random()*3).toFixed(2) + 's');
+      s.style.setProperty('--dl', (-Math.random()*4).toFixed(2) + 's');
+      sky.appendChild(s);
+    }
+  })();
+
+  /* Появление шагов при прокрутке */
+  (function(){
+    var steps = document.getElementById('steps');
+    if (reduce || !('IntersectionObserver' in window)){ steps.classList.add('in'); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ steps.classList.add('in'); io.disconnect(); } });
+    }, {threshold:.25});
+    io.observe(steps);
+  })();
+
+  /* Номер карты всегда помещается в карту целиком */
+  (function(){
+    var num = document.getElementById('cardnum');
+    function fit(){
+      num.style.fontSize = '';
+      var card = num.parentElement, cs = getComputedStyle(card);
+      var avail = card.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      var r = document.createRange(); r.selectNodeContents(num);
+      var w = r.getBoundingClientRect().width;
+      if (w > avail) num.style.fontSize = (parseFloat(getComputedStyle(num).fontSize) * avail / w * 0.97) + 'px';
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  })();
+
+  /* Копирование номера карты */
+  (function(){
+    var btn = document.getElementById('copyCard');
+    var label = document.getElementById('copyLabel');
+    var status = document.getElementById('cardStatus');
+    var num = document.getElementById('cardnum');
+    var timer = 0;
+    function fallback(){
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = CARD; ta.setAttribute('readonly','');
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch(e){ return false; }
+    }
+    function done(ok){
+      status.classList.remove('show'); void status.offsetWidth; status.classList.add('show');
+      if (ok){
+        status.textContent = 'Номер скопирован ✨ Теперь переведите 250 ₽ в приложении банка';
+        label.textContent = 'Номер скопирован';
+        btn.classList.add('done');
+        clearTimeout(timer);
+        timer = setTimeout(function(){ label.textContent = 'Скопировать номер'; btn.classList.remove('done'); }, 2500);
+        return;
+      }
+      status.textContent = 'Не получилось скопировать — номер выделен, скопируйте его вручную';
+      try { var r = document.createRange(); r.selectNodeContents(num); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch(e){}
+    }
+    btn.addEventListener('click', function(){
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(CARD).then(function(){ done(true); }, function(){ done(fallback()); });
+      } else done(fallback());
+    });
+  })();
+})();
+</script>
+</body>
+</html>
